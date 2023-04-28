@@ -200,6 +200,11 @@ class BaseModule extends \yii\base\Module
 		return $this->_extensionClassList[$category][$pluginName]['class'];
 	}
 
+	public function ExtensionsList($category, $type)
+	{
+		return $this->_extensionList[$category][$type] ?? [];
+	}
+
 	public function addDefaultRules($app)
 	{
 		$rules = [
