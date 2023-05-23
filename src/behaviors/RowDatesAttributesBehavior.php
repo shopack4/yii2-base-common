@@ -54,8 +54,12 @@ class RowDatesAttributesBehavior extends AttributesBehavior
 					if (!empty($this->owner->{$this->createdByAttribute}))
 						return $this->owner->{$this->createdByAttribute};
 
+					//called from console?
+					if (empty(Yii::$app->components['user']))
+						return null;
+
 					if (!Yii::$app->user->isGuest)
-						return Yii::$app->user->identity->usrID;
+						return Yii::$app->user->id;
 					if (!empty($this->owner->{$this->createdByAttribute}))
 						return $this->owner->{$this->createdByAttribute};
 					return null;
@@ -80,8 +84,12 @@ class RowDatesAttributesBehavior extends AttributesBehavior
 					if (empty($this->owner->getDirtyAttributes()))
 						return $this->owner->{$this->updatedByAttribute};
 
+					//called from console?
+					if (empty(Yii::$app->components['user']))
+						return null;
+
 					if (isset(Yii::$app->user->identity) && !Yii::$app->user->getIsGuest())
-						return Yii::$app->user->identity->usrID;
+						return Yii::$app->user->id;
 					if (!empty($this->owner->{$this->updatedByAttribute}))
 						return $this->owner->{$this->updatedByAttribute};
 					return null;

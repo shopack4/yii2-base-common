@@ -11,4 +11,6 @@ class Application extends \yii\web\Application
 {
 	use ApplicationInstanceIDTrait;
 
+	public $isJustForMe = true;
+
 }

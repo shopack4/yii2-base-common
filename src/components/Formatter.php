@@ -5,6 +5,8 @@
 
 namespace shopack\base\common\components;
 
+use NumberFormatter;
+use Yii;
 // use yii\base\InvalidParamException;
 // use shopack\base\helpers\Url;
 // use shopack\base\frontend\helpers\Html;
@@ -17,6 +19,11 @@ use shopack\base\common\classes\datetime\Jalali;
 
 class Formatter extends \yii\i18n\Formatter
 {
+	public function getCurrencyFormatter()
+	{
+		return $this->createNumberFormatter(NumberFormatter::CURRENCY);
+	}
+
 	private static $num_map = [
 		// '0' => '۰',
 		// '1' => '۱',
@@ -96,14 +103,15 @@ class Formatter extends \yii\i18n\Formatter
 	// 	return str_replace("\n", "<br>", str_replace("\r", "", $this->asPersian($value)));
 	// }
 
-	// /**
-	//  * $value : bool (yes/no) | string (icon name)
-	//  * $plugin: fa (font awesome) | glyph
-	//  */
-	// public function asKZIcon($value, $options = [])
-	// {
-	// 	return Html::icon($value, $options);
-	// }
+	/**
+	 * $value : bool (yes/no) | string (icon name)
+	 * $plugin: fa (font awesome) | glyph
+	 */
+	public function asBool($value, $options = [])
+	{
+		return Yii::t('yii', $value ? 'Yes' : 'No');
+		// return Html::icon($value, $options);
+	}
 
 	public function asPersianTimeString($value, $minuteBase=false, $afterValueChars=null)
 	{
@@ -312,6 +320,14 @@ class Formatter extends \yii\i18n\Formatter
 	public function asEnum($value, $enum=null)
 	{
 		return $this->asText($enum::getLabel($value));
+	}
+
+	public function asLookup($value, $data)
+	{
+		if (isset($data[$value]))
+			return $this->asText($data[$value]);
+
+		return null;
 	}
 
 	// public function asLink($value, $link, $idParam='id', $linkOptions=null, $text=null, $nullText=null)

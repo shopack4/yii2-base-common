@@ -10,5 +10,6 @@ interface ISaleableEntity
 {
 	public static function saleableKey();
 	public static function addToBasket($basketdata, $saleableID = null);
+	// public static function ProcessVoucherItem($voucherItemdata);
 
 }

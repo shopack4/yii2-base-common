@@ -14,27 +14,30 @@ use yii\base\NotSupportedException;
 trait SoftDeleteActiveRecordTrait
 {
   public $softdelete_RemovedStatus = 'R';
-  public $softdelete_StatusField;
+  // public $softdelete_StatusField;
   public $softdelete_RemovedAtField;
   public $softdelete_RemovedByField;
   public $softdelete_CustomLambda;
 
   public function initSoftDelete() { }
 
-  public function softDelete() {
+  public function softDelete()
+  {
+    $statusColumnName = $this->getStatusColumnName();
+
     $this->initSoftDelete();
 
     if (empty($this->softdelete_RemovedStatus)
-        || empty($this->softdelete_StatusField)
+        || empty($this->statusColumnName)
         || empty($this->softdelete_RemovedAtField)
         || empty($this->softdelete_RemovedByField))
       throw new UnprocessableEntityHttpException('soft delete not initialized');
 
-    $this->setAttribute($this->softdelete_StatusField, $this->softdelete_RemovedStatus);
+    $this->setAttribute($this->statusColumnName, $this->softdelete_RemovedStatus);
     $this->setAttribute($this->softdelete_RemovedAtField, new Expression('UNIX_TIMESTAMP()'));
 
     if (isset(Yii::$app->user->identity) && (Yii::$app->user->getIsGuest() == false))
-      $this->setAttribute($this->softdelete_RemovedByField, Yii::$app->user->identity->usrID);
+      $this->setAttribute($this->softdelete_RemovedByField, Yii::$app->user->id);
 
     if ($this->softdelete_CustomLambda instanceof Closure
         || (is_array($this->softdelete_CustomLambda)

@@ -6,13 +6,14 @@ use shopack\base\common\base\BaseEnum;
 
 abstract class enuColumnInfo extends BaseEnum
 {
-	const type       = 'type';
-	const validator  = 'validator';
-	const default    = 'default';
-	const required   = 'required';
-	const selectable = 'selectable';
-	const virtual    = 'virtual';
-	const search     = 'searchl';
+	const type        = 'type';
+	const validator   = 'validator';
+	const default     = 'default';
+	const required    = 'required';
+	const selectable  = 'selectable';
+	const virtual     = 'virtual';
+	const search      = 'search';
+	const isStatus    = 'isStatus';
 
 	public static $messageCategory = 'aaa';
 
@@ -24,6 +25,7 @@ abstract class enuColumnInfo extends BaseEnum
 		self::selectable => 'selectable',
 		self::virtual    => 'virtual',
 		self::search     => 'search',
+		self::isStatus   => 'isStatus',
 	];
 
 };

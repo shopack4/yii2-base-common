@@ -11,6 +11,17 @@ use shopack\base\common\helpers\StringHelper;
 
 trait ActiveRecordTrait
 {
+  public function getStatusColumnName()
+  {
+    $columnsInfo = static::columnsInfo();
+    foreach ($columnsInfo as $column => $info) {
+      if ($info[enuColumnInfo::isStatus] ?? false)
+        return $column;
+    }
+
+		return null;
+  }
+
 	public static function canViewColumn($column)
 	{
 		$columnsInfo = static::columnsInfo();
@@ -169,5 +180,15 @@ trait ActiveRecordTrait
 		$this->processStringColumns();
 		return parent::beforeSave($insert);
   }
+
+	public function applyDefaultValuesFromColumnsInfo()
+	{
+		$columnsInfo = static::columnsInfo();
+		foreach ($columnsInfo as $column => $info) {
+			if (isset($info[enuColumnInfo::default])) {
+				$this->$column = $info[enuColumnInfo::default];
+			}
+		}
+	}
 
 }
